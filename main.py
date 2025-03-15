@@ -1,6 +1,7 @@
 import os
 import base64
 import io
+import uvicorn
 
 import torch
 import torch.nn as nn
@@ -206,30 +207,7 @@ async def predict_skin_lesion(request: dict):
     except Exception as e:
         return {"error": str(e)}
 
-
-# ===========================
-# 6) Dst PREDICTION ENDPOINT
-# ===========================
-@app.post("/predict_dst")
-def predict_dst(request: SolarWindRequest):
-    """
-    Accepts a single hour of solar wind data as JSON (15 fields).
-    Returns a single float representing the predicted Dst.
-    """
-    data_dict = request.dict()
-    df = pd.DataFrame([data_dict])  # shape (1,14)
-
-    # Scale the features
-    X_scaled = scaler.transform(df[FEATURE_COLS])
-    X_tensor = torch.from_numpy(X_scaled).float()
-
-    with torch.no_grad():
-        pred = dst_model(X_tensor).squeeze().item()
-
-    return {"predicted_dst": pred}
-
-
-@app.get("/predict_dst_ace")
+@app.get("/ml/dst")
 def predict_dst_ace():
     """
     Automatically fetches ACE data from NOAA SWPC,
@@ -314,5 +292,4 @@ def predict_dst_ace():
 
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host=HOST, port=PORT)
