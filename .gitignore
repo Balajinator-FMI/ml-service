@@ -1,0 +1,40 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Model files
+models/*.pt
+models/*.pth
+
+# FastAPI server logs
+*.log
+
+# Environment variables
+.env
+
+# Python distribution files
+*.egg
+*.egg-info
+dist/
+build/
+
+# MacOS files
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# .env file for environme
